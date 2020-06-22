@@ -136,7 +136,9 @@ class ApplicationDetails(Resource):
         
             s=query(f"""SELECT COUNT(EmailId) FROM team12.app_details WHERE EmailId='{data["EmailId"]}'""",return_json=False)
             print(s)
-            if(s[0]['COUNT(EmailId)']>=1 and s[0]['COUNT(EmailId)']<3):
+            if(s[0]['COUNT(EmailId)']>==3):
+            return {"message":"You can fill the application form only thrice."}, 400
+            elif(s[0]['COUNT(EmailId)']>=1 and s[0]['COUNT(EmailId)']<3):
                 r=query(f"""SELECT COUNT(Roll_id) FROM team12.app_details where Roll_id='{data['Roll_id']}'""",return_json=False)
                 if(r[0]['COUNT(Roll_id)']==1):
                     t=query(f"""SELECT id_Status FROM status_table WHERE Application_id=
@@ -211,22 +213,22 @@ class ApplicationDetails(Resource):
 
         except:
             return{"message":"There was an error connecting to the Tables."}
-        q=query(f"""SELECT COUNT(EmailId) FROM team12.app_details WHERE EmailId='{data["EmailId"]}'""",return_json=False)
-        print(q)
-        if(q[0]['COUNT(EmailId)']<3):
+      #  q=query(f"""SELECT COUNT(EmailId) FROM team12.app_details WHERE EmailId='{data["EmailId"]}'""",return_json=False)
+      #  print(q)
+      #  if(q[0]['COUNT(EmailId)']<3):
             #try:
             #x=query(f"""SELECT * FROM team12.app_details WHERE Application_id={data['Application_id']}""",return_json=False)
             #if len(x)>0: return {"message":"An application with that Application ID already exists."},400
-            try:
-                query(f"""INSERT INTO app_details(EmailId,preferred_subj,Roll_id,Research_details)
-                                VALUES('{data["EmailId"]}','{data['preferred_subj']}','{data['Roll_id']}','{data['Research_details']}')""")
-                return{"message":"Successfully inserted"},200
-            except:
-                return {"message": "An error occurred while inserting into Application details."}, 500
+          #  try:
+               # query(f"""INSERT INTO app_details(EmailId,preferred_subj,Roll_id,Research_details)
+                             #   VALUES('{data["EmailId"]}','{data['preferred_subj']}','{data['Roll_id']}','{data['Research_details']}')""")
+               # return{"message":"Successfully inserted"},200
+           # except:
+               # return {"message": "An error occurred while inserting into Application details."}, 500
                 #except:
                 #return {"message":"There was an error inserting into table."},500
-        else:
-            return {"message":"You can fill the application form only thrice."}, 400
+      #  else:
+          #  return {"message":"You can fill the application form only thrice."}, 400
 
 class SeeVacantRoles(Resource):
     @jwt_required
